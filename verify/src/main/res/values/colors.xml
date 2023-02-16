@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="button_background">#282828</color>
+    <color name="button_im_human">#FFFFFF</color>
+    <color name="button_verified">#1EBA1E</color>
+    <color name="button_rejected">#BA1E1E</color>
+    <color name="button_pending">#CCCCCC</color>
+    <color name="button_icon_background">#3C3C3C</color>
+</resources>

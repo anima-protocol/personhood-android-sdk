@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.synaps">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".PersonhoodWebView"
+            android:exported="false"
+            android:label="@string/title_activity_personhood_web_view"
+            android:theme="@style/Theme.PoP.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="Personhood" />
+        </activity>
+    </application>
+
+</manifest>
