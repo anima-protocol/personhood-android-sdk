@@ -125,5 +125,6 @@ public class Personhood extends WebView {
     }
 
     public void sign(String payload, String signature) {
+        this.loadUrl(String.format("javascript:window.__pop_android_sign('%s', '%s')", payload, signature));
     }
 }
