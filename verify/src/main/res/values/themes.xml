@@ -5,7 +5,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.PoP.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.PoP.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

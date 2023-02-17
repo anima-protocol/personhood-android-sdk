@@ -21,22 +21,17 @@ class MainActivity : AppCompatActivity() {
 
         pop = findViewById(R.id.personhoodButton)
 
-        pop!!.setOnFinishListener(OnFinishListener {
-            Log.d("Personhood", "finish" + it.info.toString())
-        })
+        pop!!.setOnFinishListener { session ->
+            Log.d("Personhood", "finish: " + session.info)
+        }
 
-        pop!!.setOnSignListener(OnSignListener {
-            Log.d("Personhood", "sign" + it)
-            pop!!.sign(it, "0x123")
-        })
-
-        pop!!.setOnInitListener(OnInitListener {
-            Log.d("Personhood", "init")
-        })
+        pop!!.setOnSignListener { message ->
+            pop!!.sign(message, "0x123")
+        }
 
         try {
             // An already validated personhood id
-            pop!!.launch("02da7eb6-65a7-40ef-bf60-e18e798916bb");
+            pop!!.launch("9441475b-5d67-45a3-ab06-afc5d62a2a97");
         } catch (e: CameraAccessException) {
             ActivityCompat.requestPermissions(this,
                 arrayOf<String>( Manifest.permission.CAMERA),
@@ -54,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             10 -> if (grantResults.isNotEmpty()
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED
             ) {
-                pop!!.launch("02da7eb6-65a7-40ef-bf60-e18e798916bb");
+                pop!!.launch("9441475b-5d67-45a3-ab06-afc5d62a2a97");
                 Toast.makeText(this@MainActivity, "Permission Granted!", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this@MainActivity, "Permission Denied!", Toast.LENGTH_SHORT).show()

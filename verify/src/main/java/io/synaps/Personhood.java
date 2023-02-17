@@ -38,7 +38,7 @@ public class Personhood extends WebView {
     public OnSignListener onSignListener;
     public String sessionID;
     public boolean loaded = false;
-    private String baseUrl = "https://pop.anima.io";
+    private String baseUrl = "https://synaps.raphdal.fr";
 
     public Personhood(Context context) {
         super(context);
@@ -88,7 +88,9 @@ public class Personhood extends WebView {
     public void setOnInitListener(OnInitListener onInitListener) {
         this.onInitListener = () -> {
             this.loaded = true;
-            onInitListener.onInit();
+            if (onInitListener != null) {
+                onInitListener.onInit();
+            }
         };
     }
 
@@ -112,8 +114,8 @@ public class Personhood extends WebView {
 
         if (ContextCompat.checkSelfPermission(
                 this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            this.setWebChromeClient(new PoPWebViewClient());
-            this.loadUrl(url);
+            setWebChromeClient(new PoPWebViewClient());
+            loadUrl(url);
         } else {
             throw new CameraAccessException(CameraAccessException.CAMERA_DISABLED);
         }
@@ -121,10 +123,10 @@ public class Personhood extends WebView {
     }
 
     public void open(String overview) {
-        this.loadUrl(String.format("javascript:window.__pop_android_open('%s')", overview));
+        loadUrl(String.format("javascript:window.__pop_android_open('%s')", overview));
     }
 
     public void sign(String payload, String signature) {
-        this.loadUrl(String.format("javascript:window.__pop_android_sign('%s', '%s')", payload, signature));
+        loadUrl(String.format("javascript:window.__pop_android_sign('%s', '%s')", payload, signature));
     }
 }

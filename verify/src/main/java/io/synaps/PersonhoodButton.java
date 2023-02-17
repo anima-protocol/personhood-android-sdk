@@ -33,10 +33,10 @@ import io.synaps.types.SessionState;
 import kotlin.jvm.JvmOverloads;
 
 public class PersonhoodButton extends FrameLayout {
-    String apiUrl = "https://api.pop.anima.io/v1/personhood/overview";
+    final String apiUrl = "https://api.pop.anima.io/v1/personhood/overview";
     String sessionId = null;
     String walletAddress = null;
-    boolean opened = true;
+    boolean opened = false;
 
     public PersonhoodOverview overview = null;
     private String overviewJson = null;
@@ -94,7 +94,9 @@ public class PersonhoodButton extends FrameLayout {
 
         executor.execute(() -> {
             AtomicReference<String> overviewResponse = new AtomicReference<>();
-            AtomicReference<PersonhoodOverview> popOverview = new AtomicReference<>();;
+            AtomicReference<PersonhoodOverview> popOverview = new AtomicReference<>();
+            AtomicReference<String> error = new AtomicReference<>();
+
             try {
                 URL apiUrl = new URL(this.apiUrl);
                 HttpURLConnection con = (HttpURLConnection) apiUrl.openConnection();
@@ -126,24 +128,32 @@ public class PersonhoodButton extends FrameLayout {
                     popOverview.set(new PersonhoodOverview(responseJson));
                 } else {
                     Log.d("Personhood", "GET request failed");
-                    setError("Unexpected session error");
+                    error.set("Unexpected session error");
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d("Personhood", "GET request failed" + e.getMessage());
-                setError("Unexpected session error");
+                error.set("Unexpected session error");
             }
 
-            handler.post(() -> {
-                if (popOverview.get() == null || overviewResponse.get() == null) {
-                    return;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String err = error.get();
+                    if (err != null) {
+                        setError(err);
+                        return;
+                    }
+
+                    if (popOverview.get() == null || overviewResponse.get() == null) {
+                        return;
+                    }
+
+                    overview = popOverview.get();
+                    overviewJson = overviewResponse.get();
+                    openModal();
+                    updateSession(overview.session);
                 }
-                overview = popOverview.get();
-                overviewJson = overviewResponse.get();
-                openModal();
-                updateSession(overview.session);
             });
         });
     }
@@ -161,6 +171,8 @@ public class PersonhoodButton extends FrameLayout {
         } else if (session.state == SessionState.REJECTED) {
             setError("Rejected");
         } else {
+            statusIcon.clearAnimation();
+            statusIcon.setImageResource(0);
             statusText.setText("Are you human?");
             statusText.setTextColor(Color.parseColor("#BABABA"));
         }
@@ -174,10 +186,22 @@ public class PersonhoodButton extends FrameLayout {
     }
 
     private void openModal() {
-        if (opened && pop.loaded && overview != null) {
-            dialog.show();
-            pop.open(overviewJson);
-        }
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                if (opened) {
+                    if (pop.loaded && overview != null) {
+                        statusIcon.clearAnimation();
+                        statusIcon.setImageResource(0);
+                        dialog.show();
+                        pop.open(overviewJson);
+                    } else {
+                        statusIcon.setImageResource(R.drawable.loader);
+                        statusIcon.startAnimation(rotate);
+                    }
+                }
+            }
+        });
     }
 
     private void closeModal() {
@@ -190,11 +214,6 @@ public class PersonhoodButton extends FrameLayout {
             closeModal();
             listener.onFinish(session);
         });
-    }
-
-    public void setOnInitListener(OnInitListener listener) {
-        pop.setOnInitListener(listener);
-        openModal();
     }
 
     public void setOnSignListener(OnSignListener listener) {
@@ -220,6 +239,10 @@ public class PersonhoodButton extends FrameLayout {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         pop = dialog.findViewById(R.id.synaps);
+
+        pop.setOnInitListener(() -> {
+            openModal();
+        });
 
         pop.setOnFinishListener(session -> {
             closeModal();
