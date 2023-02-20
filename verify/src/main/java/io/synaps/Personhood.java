@@ -35,7 +35,7 @@ import io.synaps.types.PersonhoodOverview;
 public class Personhood extends WebView {
     public OnInitListener onInitListener;
     public OnFinishListener onFinishListener;
-    public OnSignListener onSignListener;
+    public OnInternalSignListener onSignListener;
     public String sessionID;
     public boolean loaded = false;
     private String baseUrl = "https://verify.pop.anima.io";
@@ -98,7 +98,7 @@ public class Personhood extends WebView {
         this.onFinishListener = onFinishListener;
     }
 
-    public void setOnSignListener(OnSignListener onSignListener) {
+    public void setOnSignListener(OnInternalSignListener onSignListener) {
         this.onSignListener = onSignListener;
     }
 

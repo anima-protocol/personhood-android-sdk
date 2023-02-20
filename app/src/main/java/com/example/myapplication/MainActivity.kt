@@ -25,8 +25,13 @@ class MainActivity : AppCompatActivity() {
             Log.d("Personhood", "finish: " + session.info)
         }
 
-        pop!!.setOnSignListener { message ->
-            pop!!.sign(message, "0x123")
+        pop!!.setOnSignListener { message, onSuccess, onError ->
+            Log.d("Personhood", "sign: $message")
+            try {
+                onSuccess.Sign("signed message")
+            } catch (e: Exception) {
+                onError.Error()
+            }
         }
 
         try {

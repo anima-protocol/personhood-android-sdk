@@ -80,10 +80,6 @@ public class PersonhoodButton extends FrameLayout {
         launch(sessionId, null);
     }
 
-    public void sign(String payload, String signature) {
-        pop.sign(payload, signature);
-    }
-
     private void getOverview() {
         if (sessionId == null) {
             return;
@@ -217,7 +213,19 @@ public class PersonhoodButton extends FrameLayout {
     }
 
     public void setOnSignListener(OnSignListener listener) {
-        pop.setOnSignListener(listener);
+        pop.setOnSignListener((payload) -> {
+            if (listener != null) {
+                listener.onSign(payload, (signature) -> {
+                    this.post(() -> {
+                        pop.sign(payload, signature);
+                    });
+                }, () -> {
+                    this.post(() -> {
+                        closeModal();
+                    });
+                });
+            }
+        });
     }
 
     private void init() {
