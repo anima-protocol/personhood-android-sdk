@@ -11,15 +11,6 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".PersonhoodWebView"
-            android:exported="false"
-            android:label="@string/title_activity_personhood_web_view"
-            android:theme="@style/Theme.PoP.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="Personhood" />
-        </activity>
     </application>
 
 </manifest>

@@ -2,8 +2,5 @@
 <resources>
 
     <declare-styleable name="synaps">
-        <attr name="primary_color" format="color" />
-        <attr name="secondary_color" format="color" />
-        <attr name="tier" format="integer" />
     </declare-styleable>
 </resources>
