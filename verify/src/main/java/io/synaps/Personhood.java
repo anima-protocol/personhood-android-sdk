@@ -38,7 +38,7 @@ public class Personhood extends WebView {
     public OnSignListener onSignListener;
     public String sessionID;
     public boolean loaded = false;
-    private String baseUrl = "https://synaps.raphdal.fr";
+    private String baseUrl = "https://verify.pop.anima.io";
 
     public Personhood(Context context) {
         super(context);
