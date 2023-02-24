@@ -1,6 +1,7 @@
 package io.synaps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -12,6 +13,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.core.content.ContextCompat;
@@ -76,8 +78,12 @@ public class Personhood extends WebView {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void init(Context context, AttributeSet attrs, int defStyleAttr) throws URISyntaxException {
-        this.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = this.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+
         this.addJavascriptInterface(new SynapsWebInterface(context, this), "__pop_android_client");
         this.onInitListener = () -> {
             this.loaded = true;

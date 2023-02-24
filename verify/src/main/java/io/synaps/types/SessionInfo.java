@@ -7,4 +7,5 @@ public enum SessionInfo {
     WF_LIVENESS,
     WF_DECENTRALIZE,
     WF_SHARE,
+    WF_VERIFY,
 }
