@@ -187,8 +187,10 @@ public class PersonhoodButton extends FrameLayout {
             public void run() {
                 if (opened) {
                     if (pop.loaded && overview != null) {
-                        statusIcon.clearAnimation();
-                        statusIcon.setImageResource(0);
+                        if (overview.session.state == SessionState.IN_PROGRESS) {
+                            statusIcon.clearAnimation();
+                            statusIcon.setImageResource(0);
+                        }
                         dialog.show();
                         pop.open(overviewJson);
                     } else {
@@ -208,6 +210,9 @@ public class PersonhoodButton extends FrameLayout {
     public void setOnFinishListener(OnFinishListener listener) {
         pop.setOnFinishListener(session -> {
             closeModal();
+            this.post(() -> {
+                updateSession(session);
+            });
             listener.onFinish(session);
         });
     }
@@ -254,6 +259,9 @@ public class PersonhoodButton extends FrameLayout {
 
         pop.setOnFinishListener(session -> {
             closeModal();
+            this.post(() -> {
+                updateSession(session);
+            });
         });
 
         statusIcon.setOnClickListener(v -> {
