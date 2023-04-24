@@ -160,7 +160,7 @@ public class PersonhoodButton extends FrameLayout {
         }
 
         if (session.state == SessionState.APPROVED) {
-            statusText.setText("Verified");
+            statusText.setText("I'm a human");
             statusText.setTextColor(Color.parseColor("#22B55D"));
             statusIcon.setImageResource(R.drawable.check_solid);
             statusIcon.clearAnimation();
@@ -169,7 +169,7 @@ public class PersonhoodButton extends FrameLayout {
         } else {
             statusIcon.clearAnimation();
             statusIcon.setImageResource(0);
-            statusText.setText("Are you human?");
+            statusText.setText("I'm a human");
             statusText.setTextColor(Color.parseColor("#BABABA"));
         }
     }
